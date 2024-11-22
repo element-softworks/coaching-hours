@@ -27,9 +27,9 @@ export const config = {
 				// body: 'var(--font-open-sans)',
 			},
 			backgroundImage: {
-				'brand-gradient':
-					'linear-gradient(to right, hsla(246, 79%, 51%, 1), hsla(24, 82%, 87%, 1))',
+				'brand-gradient': 'linear-gradient(83deg, #3521E5 -7.49%, #F9D8C2 132.33%);',
 			},
+
 			fontWeight: {
 				thin: '100',
 				extralight: '200',

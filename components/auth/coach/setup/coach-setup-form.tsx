@@ -4,18 +4,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
+import { createVeriffSession } from '@/actions/auth/create-veriff-session';
+import { setCookie } from '@/data/cookies';
+import { CoachApplication } from '@/db/drizzle/schema/booking-system/coachApplication';
 import { CoachSetupSchema } from '@/schemas';
 import { usePathname, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DetailsStep } from './details-step';
 import { IdentityCheckStep } from './identity-check-step';
 import { MoreAboutYouStep } from './more-about-you-step';
-import { VerificationStep } from './verification-step';
-import { createVeriffSession } from '@/actions/auth/create-veriff-session';
 import { ThankYouStep } from './thank-you-step';
-import { CoachApplication } from '@/db/drizzle/schema/booking-system/coachApplication';
-import { cookies } from 'next/headers';
-import { setCookie } from '@/data/cookies';
+import { VerificationStep } from './verification-step';
 
 export type CoachSetupFormFormProps = z.infer<typeof CoachSetupSchema>;
 
@@ -71,7 +70,6 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 		// await createSetupFormSubmission(values!);
 	}
 
-	console.log(props.session, 'props.session');
 	const [fadeOut, setFadeOut] = useState(false);
 	const [step, setStep] = useState<step>(props?.searchParams?.step ?? 'details');
 	const router = useRouter();
@@ -92,7 +90,6 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 		}
 	}, [props?.searchParams?.step]);
 
-	console.log(watch(), 'watch data dasdas');
 	return (
 		<div className="flex flex-col gap-4 ">
 			{step === 'details' ? (
