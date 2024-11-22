@@ -3,7 +3,7 @@ Allow: /
 Disallow: /dashboard
 
 # Host
-Host: https://www.nextjs-saas-boilerplate.org
+Host: https://www.coachinghours.com
 
 # Sitemap
-Sitemap: https://www.nextjs-saas-boilerplate.org/sitemap.xml
+Sitemap: https://www.coachinghours.com/sitemap.xml

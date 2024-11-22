@@ -18,7 +18,7 @@ const openSans = Open_Sans({
 
 export const metadata: Metadata = {
 	title: 'Coaching Hours',
-	description: 'This is a boilerplate for building SaaS applications with NextJS.',
+	description: 'Coaching Hours is a coaching platform for coachees and coaches.',
 };
 
 export default async function RootLayout({

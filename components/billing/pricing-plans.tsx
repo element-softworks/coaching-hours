@@ -37,7 +37,11 @@ export function PricingCard(props: PricingCardProps) {
 				<p className="font-semibold text-muted-foreground">{props.planName}</p>
 
 				<CardTitle
-					className={`${!!props.discount?.length ? 'text-muted-foreground line-through text-base ' : ''}`}
+					className={`${
+						!!props.discount?.length
+							? 'text-muted-foreground line-through text-base '
+							: ''
+					}`}
 				>
 					{props.price}
 					{!!props.type?.length ? `/${props.type}` : ''}
@@ -92,7 +96,7 @@ export function SubscriptionPricingPlans(props: PricingProps) {
 
 	return (
 		<div className="text-start lg:text-center">
-			<p className="text-xl md:text-3xl font-bold">Boilerplate pricing plans</p>
+			<p className="text-xl md:text-3xl font-bold">Coaching hours pricing plans</p>
 			<p className="text-muted-foreground">Select a plan to upgrade your account</p>
 
 			<div className="flex gap-2 justify-start lg:justify-center mt-4">
@@ -219,7 +223,7 @@ export function OneTimePricingPlans(props: PricingProps) {
 
 	return (
 		<div className="text-start lg:text-center">
-			<p className="text-xl md:text-3xl font-bold">Boilerplate pricing plans</p>
+			<p className="text-xl md:text-3xl font-bold">Coaching hours pricing plans</p>
 			<p className="text-muted-foreground">Select a plan to upgrade your account</p>
 
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6 lg:mt-10">

@@ -6,18 +6,15 @@ import { Suspense } from 'react';
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
 	return {
-		title: `SaaSphere Coaching Hours`,
-		description:
-			'SaaSphere Coaching Hours is a modern boilerplate for building SaaS applications quickly.',
+		title: 'Coaching Hours',
+		description: 'Coaching Hours is a coaching platform for coachees and coaches.',
 		openGraph: {
-			title: `SaaSphere Coaching Hours`,
-			description:
-				'SaaSphere Coaching Hours is a modern boilerplate for building SaaS applications quickly.',
+			title: 'Coaching Hours',
+			description: 'Coaching Hours is a coaching platform for coachees and coaches.',
 		},
 		twitter: {
-			title: `SaaSphere Coaching Hours`,
-			description:
-				'SaaSphere Coaching Hours is a modern boilerplate for building SaaS applications quickly.',
+			title: 'Coaching Hours',
+			description: 'Coaching Hours is a coaching platform for coachees and coaches.',
 		},
 		alternates: {
 			canonical: `${process.env.NEXT_PUBLIC_APP_URL}`,
