@@ -82,30 +82,32 @@ export const coachApplicationUpdate = async (
 	}
 
 	//Check if the certificate file size is greater than 3MB
-	certificates?.forEach?.((image, index) => {
-		if (typeof image?.file === 'string') return;
-
-		if (!!image?.file?.size && image?.file?.size > 3000000) {
-			return {
-				error: 'File size cannot exceed 3MB. Please compress or upload another file.',
-			};
-		}
-	});
-
 	let uuids: { name: string; uuid: string }[] = [];
 
-	//Upload the certificates to S3
-	await Promise.all(
-		certificates?.map(async (image, index) => {
+	if (!!certificates?.length) {
+		certificates?.forEach?.((image, index) => {
 			if (typeof image?.file === 'string') return;
-			const uuid = uuidv4();
 
-			const buffer = Buffer.from(await image?.file?.arrayBuffer());
-			await uploadFileToS3(buffer, `${uuid}-${image?.file.name}`);
+			if (!!image?.file?.size && image?.file?.size > 3000000) {
+				return {
+					error: 'File size cannot exceed 3MB. Please compress or upload another file.',
+				};
+			}
+		});
 
-			uuids.push({ name: image?.file?.name, uuid });
-		})
-	);
+		//Upload the certificates to S3
+		await Promise.all(
+			certificates?.map(async (image, index) => {
+				if (typeof image?.file === 'string') return;
+				const uuid = uuidv4();
+
+				const buffer = Buffer.from(await image?.file?.arrayBuffer());
+				await uploadFileToS3(buffer, `${uuid}-${image?.file.name}`);
+
+				uuids.push({ name: image?.file?.name, uuid });
+			})
+		);
+	}
 
 	if (foundApplication.avatar && foundApplication.avatar.includes(s3Path) && !!avatar?.size) {
 		//If the user already has an avatar, remove it from S3
@@ -130,23 +132,24 @@ export const coachApplicationUpdate = async (
 			timezone: !!values?.timezone ? values.timezone : undefined,
 			yearsExperience: !!values?.yearsExperience ? Number(values.yearsExperience) : undefined,
 			avatar: !!avatar?.size ? `${s3Path}/${uuid}` : undefined,
-			certificates:
-				certificates?.map?.((image, index) => {
-					let imagePath = '';
-					if (typeof image?.file === 'string') {
-						imagePath = image?.file;
-					} else {
-						const foundUuid = uuids.find((uuid) => uuid.name === image?.file.name);
-						imagePath = `${s3Path}/${foundUuid?.uuid}-${image?.file.name}`;
-					}
+			certificates: !!certificates?.length
+				? certificates?.map?.((image, index) => {
+						let imagePath = '';
+						if (typeof image?.file === 'string') {
+							imagePath = image?.file;
+						} else {
+							const foundUuid = uuids.find((uuid) => uuid.name === image?.file.name);
+							imagePath = `${s3Path}/${foundUuid?.uuid}-${image?.file.name}`;
+						}
 
-					return {
-						file: imagePath,
-						certificateName: image?.certificateName,
-						certifiedDate: image?.certifiedDate,
-						institution: image?.institution,
-					};
-				}) ?? [],
+						return {
+							file: imagePath,
+							certificateName: image?.certificateName,
+							certifiedDate: image?.certifiedDate,
+							institution: image?.institution,
+						};
+				  })
+				: undefined,
 		})
 		.where(eq(coachApplication.id, applicationId.value))
 		.returning();

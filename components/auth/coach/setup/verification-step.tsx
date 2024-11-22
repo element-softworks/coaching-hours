@@ -56,28 +56,34 @@ export function VerificationStep(props: VerificationStepProps) {
 		formData.append('hoursExperience', values.hoursExperience);
 
 		await updateQuery(formData);
-
-		form.reset({
-			certificates: props.values?.certificates ?? form.getValues('certificates') ?? [],
-			hoursExperience:
-				props.values?.hoursExperience ?? form.getValues('hoursExperience') ?? '',
-		});
-
-		props.onSubmit(form.watch());
 	}
 
 	const { query: updateQuery, isLoading } = useMutation<FormData, {}>({
 		queryFn: async (values) => {
-			await coachApplicationUpdate(
+			return await coachApplicationUpdate(
 				{
 					hoursExperience: values?.get('hoursExperience') as string,
 				},
 				values
 			);
 		},
-	});
+		onSuccess: (response: any) => {
+			props.onSubmit(form.watch());
 
-	console.log(form.watch(), 'certs data');
+			form.reset({
+				certificates:
+					response?.data?.certificates ??
+					props.values?.certificates ??
+					form.getValues('certificates') ??
+					[],
+				hoursExperience:
+					response?.data?.hoursExperience ??
+					props.values?.hoursExperience ??
+					form.getValues('hoursExperience') ??
+					'',
+			});
+		},
+	});
 
 	return (
 		<div className="flex flex-col gap-4 max-w-full mb-16 sm:mb-4 mt-auto">
@@ -137,7 +143,11 @@ export function VerificationStep(props: VerificationStepProps) {
 								disabled={isLoading}
 								size="lg"
 								className="w-fit !mt-2"
-								onClick={form.handleSubmit(onSubmit)}
+								onClick={(e) => {
+									e.preventDefault();
+									e.stopPropagation();
+									form.handleSubmit(onSubmit)();
+								}}
 							>
 								next step
 							</Button>

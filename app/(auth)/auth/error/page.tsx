@@ -34,7 +34,7 @@ export default function AuthErrorPage() {
 			</div>
 			<Link href="/auth/login">
 				<Button isLoading={false} className="w-full mt-2">
-					Back to login
+					back to login
 				</Button>
 			</Link>
 

@@ -1,10 +1,12 @@
 'use client';
 
 import { getVeriffDecision } from '@/actions/auth/get-veriff-decision';
+import { resendCoachApplicationEmail } from '@/actions/booking-system/resend-coach-application-email';
 import { CenteredLoader } from '@/components/layout/centered-loader';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@/hooks/use-mutation';
+import { sendNewApplicationEmail } from '@/lib/mail';
 import { Info } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -20,6 +22,13 @@ export function ThankYouStep(props: ThankYouStepProps) {
 		data,
 	} = useMutation<{}, { verified: boolean }>({
 		queryFn: async (values) => await getVeriffDecision(),
+	});
+
+	const { query: resendEmail, isLoading: isResendingEmail } = useMutation<
+		{},
+		{ verified: boolean }
+	>({
+		queryFn: async (values) => await resendCoachApplicationEmail(),
 	});
 
 	useEffect(() => {
@@ -62,11 +71,19 @@ export function ThankYouStep(props: ThankYouStepProps) {
 							</Alert>
 
 							<div className="mt-0 lg:mt-4 flex flex-col gap-4">
-								<Link href="/auth/login">
-									<Button size="lg" className="w-fit !mt-2">
-										Login
-									</Button>
-								</Link>
+								<Button
+									isLoading={isResendingEmail}
+									disabled={isResendingEmail}
+									onClick={() => {
+										(async () => {
+											await resendEmail();
+										})();
+									}}
+									size="lg"
+									className="w-fit !mt-2"
+								>
+									resend verification
+								</Button>
 							</div>
 						</>
 					) : (

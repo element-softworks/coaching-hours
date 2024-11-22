@@ -76,7 +76,7 @@ export function NewPasswordForm() {
 					<div>
 						<Link href="/auth/login">
 							<Button size="sm" variant="link" asChild className="px-0">
-								Back to login
+								back to login
 							</Button>
 						</Link>
 						<Button className="w-fit" type="submit" isLoading={isLoading}>
