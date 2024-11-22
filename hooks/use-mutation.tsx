@@ -43,6 +43,8 @@ export function useMutation<T, R>({
 			// Execute the queryFn within the transition
 			const responseData = await queryFn(values).then((res) => {
 				response = res as QueryResponse;
+
+				console.log(response, 'response datatat');
 				setData(response);
 
 				if (response?.success) setQueryStatus('success');

@@ -58,9 +58,13 @@ export function MoreAboutYouStep(props: GenderStepProps) {
 		});
 	}, [props.values]);
 
-	const { query: updateQuery, isLoading } = useMutation<FormData, {}>({
+	const {
+		query: updateQuery,
+		isLoading,
+		data,
+	} = useMutation<FormData, {}>({
 		queryFn: async (values) => {
-			await coachApplicationUpdate(
+			return await coachApplicationUpdate(
 				{
 					businessName: values?.get('businessName') as string,
 					location: values?.get('location') as string,
@@ -70,6 +74,12 @@ export function MoreAboutYouStep(props: GenderStepProps) {
 				},
 				values
 			);
+		},
+		onSuccess: (response: any) => {
+			props.onSubmit({
+				...form.getValues(),
+				avatar: response?.data?.avatar ?? '',
+			});
 		},
 	});
 
@@ -84,10 +94,8 @@ export function MoreAboutYouStep(props: GenderStepProps) {
 		formData.append('yearsExperience', values.yearsExperience);
 
 		await updateQuery(formData);
-		props.onSubmit(values);
 	}
 
-	console.log(form.watch(), 'watch data');
 	return (
 		<div className="flex flex-col gap-4 max-w-full mb-16 sm:mb-4 mt-auto">
 			<Form {...form}>
@@ -111,13 +119,16 @@ export function MoreAboutYouStep(props: GenderStepProps) {
 
 						<div className="mt-0 lg:mt-6 flex flex-col gap-4">
 							<DropzoneInput
+								accept={{
+									'image/png': [],
+									'image/jpeg': [],
+								}}
 								label="Avatar"
 								name="avatar"
 								placeholder="Drag or drop to upload an avatar PNG/JPEG Maximum 3MB"
-								// defaultFiles={props.values.avatar as any}
 								defaultFiles={
 									!!props.values.avatar?.length
-										? [props.values.avatar as any]
+										? [props.values?.avatar as any]
 										: undefined
 								}
 							/>

@@ -39,7 +39,7 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 			password: '',
 			agreedToMarketing: props.session?.agreedToMarketing ?? false,
 			agreedToTerms: props.session?.agreedToTerms ?? false,
-			avatar: props.session?.avatar ?? ('' as any),
+			avatar: typeof props.session?.avatar === 'string' ? (props.session.avatar as any) : '',
 			location: props.session?.location ?? '',
 			timezone: props.session?.timezone ?? '',
 			yearsExperience: String(props.session?.yearsExperience ?? '') ?? '',
@@ -71,6 +71,7 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 		// await createSetupFormSubmission(values!);
 	}
 
+	console.log(props.session, 'props.session');
 	const [fadeOut, setFadeOut] = useState(false);
 	const [step, setStep] = useState<step>(props?.searchParams?.step ?? 'details');
 	const router = useRouter();
@@ -91,6 +92,7 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 		}
 	}, [props?.searchParams?.step]);
 
+	console.log(watch(), 'watch data dasdas');
 	return (
 		<div className="flex flex-col gap-4 ">
 			{step === 'details' ? (
@@ -115,6 +117,7 @@ export function CoachSetupForm(props: CoachSetupFormProps) {
 					values={watch()}
 					fadeOut={fadeOut}
 					onSubmit={async (values) => {
+						console.log(values, 'props.values.avatar submit values');
 						setValue('avatar', values.avatar);
 						setValue('location', values.location);
 						setValue('timezone', values.timezone);

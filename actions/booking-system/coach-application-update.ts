@@ -17,10 +17,8 @@ export const coachApplicationUpdate = async (
 	values: Partial<z.infer<typeof CoachSetupSchema>>,
 	formData?: FormData
 ) => {
-	const uuid = uuidv4();
-
 	const applicationId = await cookies().get('coachApplicationId');
-
+	const uuid = uuidv4();
 	if (!applicationId?.value?.length) {
 		return { error: 'An error occurred while retrieving the coach application id' };
 	}
@@ -45,7 +43,7 @@ export const coachApplicationUpdate = async (
 	if (!!avatar?.size) {
 		const buffer = Buffer.from(await avatar.arrayBuffer());
 
-		await uploadFileToS3(buffer, `${foundApplication.id}-${avatar.name}`);
+		await uploadFileToS3(buffer, `${uuid}`);
 	}
 
 	//Hash the password
@@ -109,8 +107,14 @@ export const coachApplicationUpdate = async (
 		})
 	);
 
+	if (foundApplication.avatar && foundApplication.avatar.includes(s3Path) && !!avatar?.size) {
+		//If the user already has an avatar, remove it from S3
+		const avatarKey = foundApplication.avatar.split('/').pop();
+		await removeFileFromS3(avatarKey ?? '');
+	}
+
 	//Update the application
-	await db
+	const [updatedApplication] = await db
 		.update(coachApplication)
 		.set({
 			email: !!values?.email ? values.email : undefined,
@@ -125,7 +129,7 @@ export const coachApplicationUpdate = async (
 			location: !!values?.location ? values.location : undefined,
 			timezone: !!values?.timezone ? values.timezone : undefined,
 			yearsExperience: !!values?.yearsExperience ? Number(values.yearsExperience) : undefined,
-			avatar: !!avatar?.size ? `${s3Path}/${foundApplication.id}-${avatar.name}` : undefined,
+			avatar: !!avatar?.size ? `${s3Path}/${uuid}` : undefined,
 			certificates:
 				certificates?.map?.((image, index) => {
 					let imagePath = '';
@@ -144,9 +148,10 @@ export const coachApplicationUpdate = async (
 					};
 				}) ?? [],
 		})
-		.where(eq(coachApplication.id, applicationId.value));
+		.where(eq(coachApplication.id, applicationId.value))
+		.returning();
 
 	await revalidatePath('/auth/coach-setup');
 
-	return { success: true };
+	return { success: true, data: updatedApplication };
 };

@@ -27,16 +27,6 @@ export function DropzoneInput(props: DropzoneInputProps) {
 
 	const error = formState.errors[props.name];
 
-	useEffect(() => {
-		if (!watch(props.name)) {
-			setFiles(null);
-		}
-
-		if (props.defaultFiles && !watch(props.name)) {
-			setFiles(props.defaultFiles);
-		}
-	}, [watch(props.name), props.defaultFiles, props.name, watch]);
-
 	return (
 		<>
 			<Controller
@@ -91,6 +81,7 @@ export function DropzoneInput(props: DropzoneInputProps) {
 												/>
 												{!props.multiple && (files?.length ?? 0) === 1 ? (
 													files?.map?.((file, index) => {
+														console.log(file, 'file repsonse data');
 														const objectUrl =
 															typeof file === 'string'
 																? file
