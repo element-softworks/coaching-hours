@@ -12,7 +12,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 					<section className="h-16 block md:hidden">
 						<div className="isolate">
 							<div className="noise"></div>
-							<div className="overlay dark:bg-secondary"></div>
+							<div className="overlay dark:!bg-[#94746a]"></div>
 						</div>
 					</section>
 					<div className=" min-h-screen mb-auto relative max-w-lg mx-auto w-full py-8 px-4 md:px-8 flex flex-col">
@@ -26,7 +26,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 					<section className="h-16 ">
 						<div className="isolate ">
 							<div className="noise "></div>
-							<div className="overlay dark:bg-secondary"></div>
+							<div className="overlay dark:!bg-[#94746a]"></div>
 						</div>
 					</section>
 
