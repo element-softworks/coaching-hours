@@ -20,7 +20,7 @@ export function ThankYouStep(props: ThankYouStepProps) {
 		query: verifyIdentity,
 		isLoading,
 		data,
-	} = useMutation<{}, { verified: boolean }>({
+	} = useMutation<{}, { verified: boolean; email: string }>({
 		queryFn: async (values) => await getVeriffDecision(),
 	});
 
@@ -62,11 +62,13 @@ export function ThankYouStep(props: ThankYouStepProps) {
 								your application and we{"'"}ll usually get back to you within 24
 								hours.
 							</p>
+
 							<Alert>
 								<Info className="w-6 h-6 mr-2" />
 								<p>
-									Please check your emails for a verification link to complete
-									your registration.
+									Please check your emails. We{"'"}ve sent you an email to{' '}
+									<span className="font-semibold">{data.email}</span> with a
+									verification link to complete your registration.
 								</p>
 							</Alert>
 

@@ -64,7 +64,7 @@ export const getVeriffDecision = async () => {
 	}
 
 	if (foundApplication.status !== 'IN_PROGRESS') {
-		return { verified: true };
+		return { verified: true, email: foundApplication.email };
 	}
 
 	if (verified) {
@@ -81,6 +81,6 @@ export const getVeriffDecision = async () => {
 			verified: true,
 		};
 	} else {
-		return { error: 'Verification failed', verified: false };
+		return { error: 'Verification failed', verified: false, email: foundApplication.email };
 	}
 };

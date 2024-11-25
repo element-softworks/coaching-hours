@@ -139,14 +139,14 @@ export function LoginForm() {
 				</form>
 			</Form>
 
-			<div className="relative flex text-base items-start mt-4">
+			{/* <div className="relative flex text-base items-start mt-4">
 				<span className="bg-primary-foreground border-t px-3 text-muted-foreground" />
 				<span className="bg-primary-foreground -mt-2 px-2 text-muted-foreground">
 					or continue with
 				</span>
 				<span className="bg-primary-foreground border-t px-3 text-muted-foreground" />
 			</div>
-			<Social className="mt-2" />
+			<Social className="mt-2" /> */}
 
 			<p className="text-sm font-medium !font-sans mt-4">
 				{"Don't"} have an account yet?{' '}

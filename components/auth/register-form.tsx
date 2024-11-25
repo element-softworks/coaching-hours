@@ -90,7 +90,7 @@ export function RegisterForm(props: RegisterFormProps) {
 					</Button>
 				</form>
 			</Form>
-			{!!props.token ? null : (
+			{/* {!!props.token ? null : (
 				<div className="relative flex text-base items-start mt-4">
 					<span className="bg-primary-foreground border-t px-3 text-muted-foreground" />
 					<span className="bg-primary-foreground -mt-2 px-2 text-muted-foreground">
@@ -98,7 +98,7 @@ export function RegisterForm(props: RegisterFormProps) {
 					</span>
 					<span className="bg-primary-foreground border-t px-3 text-muted-foreground" />
 				</div>
-			)}
+			)} */}
 
 			{/* We disable social login if the user is invited to the platform as there is no way to
 			securely pass data to OAuth providers without exposing vulnerabilities to the platform.
